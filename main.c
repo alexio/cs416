@@ -11,8 +11,8 @@ int main(int argc, char **argv)
     size_t length = 0 ;
     char *temp;
     printf("Project number %d\n",projectnum);
-    if (isdigit(projectnum))
-    {
+    //if (isdigit(projectnum))
+    //{
         if (projectnum == 1)
         {
             printf("Project 1");
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
         {
             printf("Project 4");
         }
-    }
+    //}
     printf("Input File: %s\n",inputFile);
     indexFile = fopen(inputFile,"r");
     while(getline(&temp,&length,indexFile) != -1)

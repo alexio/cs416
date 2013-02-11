@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "main.h"
 
-
 int main(int argc, char **argv)
 {
     char *projectnumber = argv[1]; //This is the project that we want to run
@@ -12,31 +11,10 @@ int main(int argc, char **argv)
     size_t length = 0 ;
     char *temp;
     int count = 0;
-    node *nodeone;
-    node *nodetwo;
+    struct adjLL *storage;
+    struct  node *nodeone;
+    struct node *nodetwo;
     printf("Project number %d\n",projectnum);
-    //if (isdigit(projectnum))
-    /*{
-        if (projectnum == 1)
-        {
-            printf("Project 1");
-        }
-
-        if (projectnum == 2)
-        {
-            printf("Project 2");
-        }
-
-        if (projectnum == 3)
-        {
-            printf("Project 3");
-        }
-
-        if (projectnum == 4)
-        {
-            printf("Project 4");
-        }
-    }*/
     printf("Input File: %s\n",inputFile);
     indexFile = fopen(inputFile,"r");
     if (indexFile == NULL)
@@ -58,8 +36,22 @@ int main(int argc, char **argv)
         {
             //creating a node
             nodeone = createNode(strtok(temp," "));
-            nodeone = createNode(strtok(NULL," "));
-            //creating an edge
+	    if(count == 2)
+	    {
+		storage = createAdjLL(nodeone);
+	    }
+	    if(alreadyInList(storage,nodeone) == 0)
+	    {
+            	nodeone = createNode(strtok(NULL," "));
+	    }
+            //add a node to the node list if its not already there
+            //check to see if its there or not
+	    if (alreadyInList(storage,nodetwo) == 0)
+	    {
+	    	addNodeToList(storage,nodetwo);
+            }
+	    //make an edgebetween nodeone and nodetwo
+	    createEdge(nodeone,nodetwo);
             printf("Edge = %s",temp);
         }
         count++;

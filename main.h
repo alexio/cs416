@@ -4,8 +4,13 @@
 
 
 struct node{
-int name;
+int *name;
 struct node *next;
+}
+
+struct adjLL{
+//nextY is the next node list
+struct node *nextY;
 }
 
 #endif

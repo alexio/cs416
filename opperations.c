@@ -48,3 +48,16 @@ int alreadyInList(struct adjLL * head , struct node *checkThisNode)
 	//Not in the list so add it!
 	return -1;
 }
+struct node **createArray(int numOfElements)
+{
+	int i;
+	struct node **array = (struct node **) malloc(numOfElements*(sizeof(struct node *));
+	for(i = 0; i< numOfElements; i++)
+	{
+		//array[i] = (struct node *) malloc(numOfElements*(sizeof(struct node));
+		for(int j = 0 ; j < numOfElements ; j++)
+		{
+			array[i][j] = (struct node *) malloc(numOfElements*(sizeof(struct node));
+		}	 
+	} 
+}

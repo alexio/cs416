@@ -1,18 +1,15 @@
 #include <stdio.h>
-#include "main.h"
 #include <stdlib.h>
+#include "operations.h";
 
-
-struct node * createNode(int name)
-{
+struct node *createNode(int name) {
      struct node *newNode;
      newNode = (struct node*)malloc((sizeof(struct node* )));
-     &newNode->name = name;
+     newNode->name = name;
      return newNode;
 }
 
-int createEdge(struct node **array, int currentx,int currenty,struct node *newEdge)
-{
+int createEdge(struct node **array, int currentx,int currenty,struct node *newEdge) {
 	//endOfCurrentList->next = newNode;
         //the new node is now the end of the list
 	array[currentx][currenty] = newEdge;
@@ -20,15 +17,13 @@ int createEdge(struct node **array, int currentx,int currenty,struct node *newEd
 }
 
 //Adds a new node to the 2d array
-void addNodeToList(struct node **array , struct node *newNode,int currentPos)
-{
+void addNodeToList(struct node **array , struct node *newNode,int currentPos) {
 	//endOfList->nextY = newNode;
         //the new node is now the end of the list
         array[currentPos][0] = newNode; 
 }
 
-int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct node * matchingNode , struct node **array)
-{
+int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct node * matchingNode , struct node **array) {
 	//list should just be a pointer to the list should not loose track of the list itself
 	/*struct adjLL *ListPointer = head;
 	while(ListPointer != NULL)
@@ -51,8 +46,7 @@ int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct nod
 	return -1;
 }
 
-struct node **createArray(int numOfElements)
-{
+struct node **createArray(int numOfElements) {
 	int i;
 	struct node **array = (struct node **) malloc(numOfElements*(sizeof(struct node *));
 	for(i = 0; i< numOfElements; i++)

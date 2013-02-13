@@ -1,6 +1,8 @@
 #include <ctype.h> 
 #include <stdio.h>
-#include "main.h"
+#include <stdlib.h>
+#include <string.h>
+#include "operations.h"
 
 int main(int argc, char **argv)
 {
@@ -12,7 +14,7 @@ int main(int argc, char **argv)
 	char *temp;
 	int count = 0;
 	//struct adjLL *storage;
-	struct  node *nodeone;
+	struct node *nodeone;
 	struct node *nodetwo;
 	struct node **twoDArray;
 	int numberOfEdges = 0;
@@ -40,7 +42,9 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			temp3 = atoi(strtok(temp," "));
+			char * token = strtok(temp," ");
+			temp3 = atoi(token);
+			free(token);
 			//creating the fist node if it doesnt exist already
 			if(twoDArray[temp3][0] == NULL)
 			{

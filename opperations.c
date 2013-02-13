@@ -3,19 +3,12 @@
 #include <stdlib.h>
 
 
-struct node * createNode(int *name)
+struct node * createNode(int name)
 {
      struct node *newNode;
-     newNode = (struct node*)malloc((sizeof(struct node *)));
-     newNode->name = name;
+     newNode = (struct node*)malloc((sizeof(struct node* )));
+     &newNode->name = name;
      return newNode;
-}
-
-struct adjLL * createAdjLL(struct node *firstNode)
-{
-     struct adjLL *newadjLL = (struct adjLL*)malloc((sizeof(struct adjLL *)));
-     newadjLL->current = firstNode;
-     return newadjLL;
 }
 
 int createEdge(struct node **array, int currentx,int currenty,struct node *newEdge)

@@ -16,6 +16,7 @@ int main(int argc, char **argv)
 	struct node *nodetwo;
 	struct node **twoDArray;
 	int numberOfEdges = 0;
+	int temp3 = 0;
 	printf("Project number %d\n",projectnum);
 	printf("Input File: %s\n",inputFile);
 	indexFile = fopen(inputFile,"r");
@@ -39,22 +40,30 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			//creating a node
-			nodeone = createNode(strtok(temp," "));
-			//can just use an if statement if we store the edges based on their number
-			if(alreadyInList(storage,nodeone) == 0)
+			temp3 = atoi(strtok(temp," "));
+			//creating the fist node if it doesnt exist already
+			if(twoDArray[temp3][0] == NULL)
 			{
-				nodeone = createNode(strtok(NULL," "));
+				nodeone = createNode(temp3);
+				addNodeToList(twoDArray,nodeone,temp3);
 			}
-			//add a node to the node list if its not already there
-			//check to see if its there or not
-			if (alreadyInList(storage,nodetwo) == 0)
+			else //set variable if it already exists
 			{
-				addNodeToList(twoDArray,nodetwo,numberOfEdges);
+				nodeone = twoDArray[temp3][0];
 			}
-			//make an edgebetween nodeone and nodetwo
+			temp3 = atoi(strtok(NULL," "));
+			//create second node if it doesnt exist already
+			if (twoDArray[temp3][0] == NULL)
+			{
+				nodetwo = createNode(temp3);
+				addNodeToList(twoDArray,nodeone,temp3);
+			}
+			else //set variable if it already exists
+			{
+				nodetwo = twoDArray[temp3][0];
+			}
 			createEdge(nodeone,nodetwo);
-			printf("Edge = %s",temp);
+			printf("Adding edge %s\n",temp);
 		}
 		count++;
 	}

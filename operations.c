@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "operations.h";
+#include "operations.h"
 
-struct node *createNode(int name) {
+/*struct node *createNode(int name) {
      struct node *newNode;
      newNode = (struct node*)malloc((sizeof(struct node* )));
      newNode->name = name;
@@ -23,9 +23,9 @@ void addNodeToList(struct node **array , struct node *newNode,int currentPos) {
         array[currentPos][0] = newNode; 
 }
 
-int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct node * matchingNode , struct node **array) {
+int alreadyInList(struct adjLL * head , struct node *checkThisNodestruct node * matchingNode , struct node **array) {
 	//list should just be a pointer to the list should not loose track of the list itself
-	/*struct adjLL *ListPointer = head;
+	struct adjLL *ListPointer = head;
 	while(ListPointer != NULL)
 	{
 		if (strcmp(ListPointer->current->name,checkThisNode->name) == 0)
@@ -35,7 +35,7 @@ int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct nod
 		}
 	}
 	//Not in the list so add it!
-	return -1;*/
+	return -1;
 	for(int i = 0; i < array.length(); i++)
 	{
 		if (strcmp(array[i]->name,matchingNode->name) == 0)
@@ -45,16 +45,17 @@ int alreadyInList(/*struct adjLL * head , struct node *checkThisNode*/struct nod
 	}
 	return -1;
 }
-
-struct node **createArray(int numOfElements) {
-	int i;
-	struct node **array = (struct node **) malloc(numOfElements*(sizeof(struct node *));
+*/
+int **createArray(int numOfElements) {
+	int i = 0;
+	//int j;
+	int **array = (int **) malloc(numOfElements*(sizeof(int *)));
 	for(i = 0; i< numOfElements; i++)
 	{
-		//array[i] = (struct node *) malloc(numOfElements*(sizeof(struct node));
-		for(int j = 0 ; j < numOfElements ; j++)
-		{
-			array[i][j] = (struct node *) malloc(numOfElements*(sizeof(struct node));
-		}	 
-	} 
+		//for(j = 0 ; j < numOfElements ; j++)
+		//{
+			array[i] = (int *) calloc(numOfElements,(sizeof(int)));
+		//}	 
+	}
+	return array; 
 }

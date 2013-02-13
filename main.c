@@ -16,9 +16,10 @@ int main(int argc, char **argv)
 	//struct adjLL *storage;
 	struct node *nodeone;
 	struct node *nodetwo;
-	struct node **twoDArray;
+	int **twoDArray;
 	int numberOfEdges = 0;
 	int temp3 = 0;
+	int temp4 = 0 ;
 	printf("Project number %d\n",projectnum);
 	printf("Input File: %s\n",inputFile);
 	indexFile = fopen(inputFile,"r");
@@ -38,15 +39,24 @@ int main(int argc, char **argv)
 			//Create a 2d array to store the edges and verticies
 			printf("Number of edges = %s",temp);
 			numberOfEdges = atoi(temp);
+			printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
+			printf("Done making the array\n");
 		}
 		else
 		{
 			char *token = strtok(temp," ");
 			temp3 = atoi(token);
-			free(token);
-			//creating the fist node if it doesnt exist already
-			if(twoDArray[temp3][0]->name == '\0')
+			printf("Got the first edge %d\n",temp3);
+			//free(token);
+			//tokenize and then turn into int
+			token = strtok(NULL," ");
+			temp4 = atoi(token);
+			printf("Got the second edge %d\n");
+			//add the edge to the graph
+			twoDArray[temp3][temp4] = 1;
+			twoDArray[temp4][temp3] = 1;
+			/*if(twoDArray[temp3][0] == '\0')
 			{
 				nodeone = createNode(temp3);
 				addNodeToList(twoDArray,nodeone,temp3);
@@ -57,16 +67,18 @@ int main(int argc, char **argv)
 			}
 			temp3 = atoi(strtok(NULL," "));
 			//create second node if it doesnt exist already
-			if (twoDArray[temp3][0] == NULL)
+			if (twoDArray[temp3][0] != 1)
 			{
-				nodetwo = createNode(temp3);
-				addNodeToList(twoDArray,nodeone,temp3);
+				//Add the second node to the array
+				twoDArray[temp3][0] = 1;
+				//nodetwo = createNode(temp3);
+				//addNodeToList(twoDArray,nodeone,temp3);
 			}
 			else //set variable if it already exists
 			{
 				nodetwo = twoDArray[temp3][0];
-			}
-			createEdge(nodeone,nodetwo);
+			}*/
+			//make the edge for the two nodes
 			printf("Adding edge %s\n",temp);
 		}
 		count++;

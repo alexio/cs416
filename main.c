@@ -42,18 +42,18 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			char * token = strtok(temp," ");
+			char *token = strtok(temp," ");
 			temp3 = atoi(token);
 			free(token);
 			//creating the fist node if it doesnt exist already
-			if(twoDArray[temp3][0] == NULL)
+			if(twoDArray[temp3][0]->name == '\0')
 			{
 				nodeone = createNode(temp3);
 				addNodeToList(twoDArray,nodeone,temp3);
 			}
 			else //set variable if it already exists
 			{
-				nodeone = twoDArray[temp3][0];
+				*nodeone = twoDArray[temp3][0];
 			}
 			temp3 = atoi(strtok(NULL," "));
 			//create second node if it doesnt exist already

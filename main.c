@@ -20,6 +20,8 @@ int main(int argc, char **argv)
 	int numberOfEdges = 0;
 	int temp3 = 0;
 	int temp4 = 0 ;
+	int i = 0 ;
+	int j = 0 ;
 	printf("Project number %d\n",projectnum);
 	printf("Input File: %s\n",inputFile);
 	indexFile = fopen(inputFile,"r");
@@ -41,7 +43,7 @@ int main(int argc, char **argv)
 			numberOfEdges = atoi(temp);
 			printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
-			printf("Done making the array\n");
+			printf("Done making the array %d %d\n",i,numberOfEdges);
 		}
 		else
 		{
@@ -52,10 +54,12 @@ int main(int argc, char **argv)
 			//tokenize and then turn into int
 			token = strtok(NULL," ");
 			temp4 = atoi(token);
-			printf("Got the second edge %d\n");
+			printf("Got the second edge %d\n",temp4);
 			//add the edge to the graph
+			printf("adding");
 			twoDArray[temp3][temp4] = 1;
 			twoDArray[temp4][temp3] = 1;
+			printf("adding2");
 			/*if(twoDArray[temp3][0] == '\0')
 			{
 				nodeone = createNode(temp3);
@@ -79,10 +83,21 @@ int main(int argc, char **argv)
 				nodetwo = twoDArray[temp3][0];
 			}*/
 			//make the edge for the two nodes
-			printf("Adding edge %s\n",temp);
+			//printf("Adding edge %s\n",temp);
 		}
 		count++;
 	}
 	fclose(indexFile);
+	printf("Printing the graph\n");
+	//int i;
+	//int j;
+	for(i = 0; i <numberOfEdges-1 ; i++)
+	{
+		for(j = 0 ; j < numberOfEdges-1 ; i++)
+		{
+			printf("%d",twoDArray[i][j]);
+		}
+		printf("\n");
+	}
 	return 0;
 }

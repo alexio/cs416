@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "operations.h"
+#include <math.h>
+#include <string.h>
+#include <malloc.h>
+
 
 /*struct node *createNode(int name) {
      struct node *newNode;
@@ -57,5 +61,6 @@ int **createArray(int numOfElements) {
 			array[i] = (int *) calloc(numOfElements,(sizeof(int)));
 		//}	 
 	}
+	memset(array, 0, sizeof(array[0][0]) * numOfElements * numOfElements);
 	return array; 
 }

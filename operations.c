@@ -52,7 +52,8 @@ int alreadyInList(struct adjLL * head , struct node *checkThisNodestruct node * 
 */
 int **createArray(int numOfElements) {
 	int i = 0;
-	//int j;
+	int j;
+//	int array[numOfElements][numOfElements] = { {0 } };
 	int **array = (int **) malloc(numOfElements*(sizeof(int *)));
 	for(i = 0; i< numOfElements; i++)
 	{
@@ -61,6 +62,16 @@ int **createArray(int numOfElements) {
 			array[i] = (int *) calloc(numOfElements,(sizeof(int)));
 		//}	 
 	}
-	memset(array, 0, sizeof(array[0][0]) * numOfElements * numOfElements);
+	for(i = 0; i< numOfElements; i++)
+	{
+		//printf("i is: %d\n",i);
+		for(j = 0 ; j < numOfElements ; j++)
+		{
+			array[i][j] = 0;
+		}	 
+	}
+
+	//initialize the array to all zero to start with
+	printf("First thingy %d",array[0][0]);
 	return array; 
 }

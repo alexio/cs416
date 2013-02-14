@@ -56,10 +56,10 @@ int main(int argc, char **argv)
 			temp4 = atoi(token);
 			printf("Got the second edge %d\n",temp4);
 			//add the edge to the graph
-			printf("adding");
+		//	printf("adding");
 			twoDArray[temp3][temp4] = 1;
 			twoDArray[temp4][temp3] = 1;
-			printf("adding2");
+		//	printf("adding2");
 			/*if(twoDArray[temp3][0] == '\0')
 			{
 				nodeone = createNode(temp3);
@@ -91,10 +91,12 @@ int main(int argc, char **argv)
 	printf("Printing the graph\n");
 	//int i;
 	//int j;
-	for(i = 0; i <numberOfEdges-1 ; i++)
+	for(i = 0; i <numberOfEdges ; i++)
 	{
-		for(j = 0 ; j < numberOfEdges-1 ; i++)
+		//printf("i is %d\n",i);
+		for(j = 0 ; j < numberOfEdges ; j++)
 		{
+		//	printf("j is %d\n",j);
 			printf("%d",twoDArray[i][j]);
 		}
 		printf("\n");

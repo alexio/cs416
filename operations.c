@@ -6,50 +6,6 @@
 #include <malloc.h>
 
 
-/*struct node *createNode(int name) {
-     struct node *newNode;
-     newNode = (struct node*)malloc((sizeof(struct node* )));
-     newNode->name = name;
-     return newNode;
-}
-
-int createEdge(struct node **array, int currentx,int currenty,struct node *newEdge) {
-	//endOfCurrentList->next = newNode;
-        //the new node is now the end of the list
-	array[currentx][currenty] = newEdge;
-	return 0;
-}
-
-//Adds a new node to the 2d array
-void addNodeToList(struct node **array , struct node *newNode,int currentPos) {
-	//endOfList->nextY = newNode;
-        //the new node is now the end of the list
-        array[currentPos][0] = newNode; 
-}
-
-int alreadyInList(struct adjLL * head , struct node *checkThisNodestruct node * matchingNode , struct node **array) {
-	//list should just be a pointer to the list should not loose track of the list itself
-	struct adjLL *ListPointer = head;
-	while(ListPointer != NULL)
-	{
-		if (strcmp(ListPointer->current->name,checkThisNode->name) == 0)
-		{
-			//We found tht ho
-			return 0;
-		}
-	}
-	//Not in the list so add it!
-	return -1;
-	for(int i = 0; i < array.length(); i++)
-	{
-		if (strcmp(array[i]->name,matchingNode->name) == 0)
-		{
-			return 0;
-		}
-	}
-	return -1;
-}
-*/
 int **createArray(int numOfElements) {
 	int i = 0;
 	int j;
@@ -74,4 +30,60 @@ int **createArray(int numOfElements) {
 	//initialize the array to all zero to start with
 	printf("First thingy %d",array[0][0]);
 	return array; 
+}
+
+void warshalls(int **boolMatrix, int **warPath, int numOfElements)
+{
+	int i;
+	int j;
+	int q;
+
+	for(i = 0 ; i < numOfElements; i++)
+	{
+		for(j = 0 ; j < numOfElements ; j++)
+		{
+			//Copy over the matrix to the path
+			warPath[i][j] = boolMatrix[i][j];
+		}
+	}
+
+	for(i = 0 ; i < numOfElements; i++)
+	{
+		for(j = 0 ; j < numOfElements ; j++)
+		{
+			if (warPath[i][j] == 1)
+			{
+				for(q = 0 ; q < numOfElements ; q++)
+				{
+					if (warPath[j][q] == 1)
+					{
+						warPath[i][q] = 1;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void printGraph(int **graph, int numOfElements)
+{
+	int i;
+	int j;
+	for(i = 0 ; i < numOfElements; i++)
+	{
+		for(j = 0 ; j < numOfElements ; j++)
+		{
+			printf("%d",graph[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+
+
+void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
+{
+
+
 }

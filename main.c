@@ -14,14 +14,16 @@ int main(int argc, char **argv)
 	char *temp;
 	int count = 0;
 	//struct adjLL *storage;
-	struct node *nodeone;
-	struct node *nodetwo;
+	//struct node *nodeone;
+	//struct node *nodetwo;
 	int **twoDArray;
+	int **warPath;
 	int numberOfEdges = 0;
 	int temp3 = 0;
 	int temp4 = 0 ;
 	int i = 0 ;
-	int j = 0 ;
+	//int j = 0 ;
+	//int currentIndex = 0 ;
 	printf("Project number %d\n",projectnum);
 	printf("Input File: %s\n",inputFile);
 	indexFile = fopen(inputFile,"r");
@@ -43,6 +45,7 @@ int main(int argc, char **argv)
 			numberOfEdges = atoi(temp);
 			printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
+			warPath = createArray(numberOfEdges);
 			printf("Done making the array %d %d\n",i,numberOfEdges);
 		}
 		else
@@ -59,31 +62,6 @@ int main(int argc, char **argv)
 		//	printf("adding");
 			twoDArray[temp3][temp4] = 1;
 			twoDArray[temp4][temp3] = 1;
-		//	printf("adding2");
-			/*if(twoDArray[temp3][0] == '\0')
-			{
-				nodeone = createNode(temp3);
-				addNodeToList(twoDArray,nodeone,temp3);
-			}
-			else //set variable if it already exists
-			{
-				*nodeone = twoDArray[temp3][0];
-			}
-			temp3 = atoi(strtok(NULL," "));
-			//create second node if it doesnt exist already
-			if (twoDArray[temp3][0] != 1)
-			{
-				//Add the second node to the array
-				twoDArray[temp3][0] = 1;
-				//nodetwo = createNode(temp3);
-				//addNodeToList(twoDArray,nodeone,temp3);
-			}
-			else //set variable if it already exists
-			{
-				nodetwo = twoDArray[temp3][0];
-			}*/
-			//make the edge for the two nodes
-			//printf("Adding edge %s\n",temp);
 		}
 		count++;
 	}
@@ -91,7 +69,8 @@ int main(int argc, char **argv)
 	printf("Printing the graph\n");
 	//int i;
 	//int j;
-	for(i = 0; i <numberOfEdges ; i++)
+	printGraph(twoDArray,numberOfEdges);
+	/*for(i = 0; i <numberOfEdges ; i++)
 	{
 		//printf("i is %d\n",i);
 		for(j = 0 ; j < numberOfEdges ; j++)
@@ -100,6 +79,12 @@ int main(int argc, char **argv)
 			printf("%d",twoDArray[i][j]);
 		}
 		printf("\n");
-	}
+	}*/
+	//Warshaws Algorithum
+	printf("Warshalls\n");
+	warshalls(twoDArray,warPath,numberOfEdges);
+	printGraph(warPath,numberOfEdges);
+	//Bag of Tasks
+	bagOfTask(twoDArray,warPath,numberOfEdges);
 	return 0;
 }

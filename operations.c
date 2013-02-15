@@ -84,6 +84,76 @@ void printGraph(int **graph, int numOfElements)
 
 void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
 {
+	int i;
+	int j;
+	int k;
+	Queue *tempQ = createQueue(numOfElements);
+	for(i = 0 ; i<numOfElements; i++)
+	{
+		for(j = 0; j < numOfElements; j++)
+		{
+			warPath[i][j] = boolMatrix[i][j];
+		}
+	}
+	for(k = 0; k < numOfElements ; k++)
+	{
+		for(i = 0 ; i < numOfElements ; i++)
+		{
+			//enqueue(i,k);
+			enqueue(tempQ,i);
+			enqueue(tempQ,j);
+		}
+	}
+}
+
+Queue * createQueue(int elementMax)
+{
+	Queue *queue = (Queue *) malloc(sizeof(Queue));
+	queue->elements = (int *)malloc(sizeof(int) * elementMax);
+	queue->size = 0 ; 
+	queue->cap = elementMax;
+	queue->head = 0;
+	queue->tail = -1;
+	return queue;
+}
 
 
+void dequeue(Queue *queue)
+{
+	if(queue->size == 0)
+	{
+		printf("The queue contains no elements \n");
+		return;
+	}
+	else
+	{
+		//Decrement the size and move the head up by one to take the place of the removed element
+		queue->size--;
+		queue->head++;
+		if(queue->head == queue->cap)
+		{
+			queue->head = 0;
+		}
+	}
+	return;
+}
+
+void enqueue(Queue * queue, int addItem)
+{
+	if(queue->size == queue->cap)
+	{
+		printf("The queue is full cannot add more elements \n");
+	}
+	else
+	}
+		//increment the size and move the tail to one ahead
+		queue->size++;
+		queue->tail = queue->tail + 1;
+		if (queue->tail == queue->cap)
+		{
+			queue->tail = 0;
+		}
+		//add the new element
+		queue->elements[queue->tail] = addItem;
+	{
 }

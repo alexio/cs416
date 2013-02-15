@@ -81,10 +81,34 @@ int main(int argc, char **argv)
 		printf("\n");
 	}*/
 	//Warshaws Algorithum
-	printf("Warshalls\n");
+	if(projectnumer == 1)
+	{
+		printf("Warshalls\n");
+		warshalls(twoDArray,warPath,numberOfEdges);
+		printGraph(warPath,numberOfEdges);
+	}
+	else if(projectnumber == 2)
+	{
+		printf("Warshalls\n");
+		warshalls(twoDArray,warPath,numberOfEdges);
+		printGraph(warPath,numberOfEdges);
+	}
+	else if (projectnumer == 3)
+	{
+		printf("Bag of Tasks \n");
+		bagOfTask(twoDArray,warPath,numberOfEdges);
+		printGraph(warPath,numberOfEdges);
+	}
+	else if (projectnumer == 4)
+	{
+		printf("Bag of Tasks \n");
+		bagOfTask(twoDArray,warPath,numberOfEdges);
+		printGraph(warPath,numberOfEdges);
+	}
+	/*printf("Warshalls\n");
 	warshalls(twoDArray,warPath,numberOfEdges);
 	printGraph(warPath,numberOfEdges);
 	//Bag of Tasks
-	bagOfTask(twoDArray,warPath,numberOfEdges);
+	bagOfTask(twoDArray,warPath,numberOfEdges);*/
 	return 0;
 }

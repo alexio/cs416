@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	int numberOfEdges = 0;
 	int temp3 = 0;
 	int temp4 = 0 ;
-	int i = 0 ;
+	//int i = 0 ;
 	//int j = 0 ;
 	//int currentIndex = 0 ;
 	printf("Project number %d\n",projectnum);
@@ -43,21 +43,21 @@ int main(int argc, char **argv)
 			//Create a 2d array to store the edges and verticies
 			printf("Number of edges = %s",temp);
 			numberOfEdges = atoi(temp);
-			printf("Making the array \n");
+			//printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
 			warPath = createArray(numberOfEdges);
-			printf("Done making the array %d %d\n",i,numberOfEdges);
+			//printf("Done making the array %d %d\n",i,numberOfEdges);
 		}
 		else
 		{
 			char *token = strtok(temp," ");
 			temp3 = atoi(token);
-			printf("Got the first edge %d\n",temp3);
+			//printf("Got the first edge %d\n",temp3);
 			//free(token);
 			//tokenize and then turn into int
 			token = strtok(NULL," ");
 			temp4 = atoi(token);
-			printf("Got the second edge %d\n",temp4);
+			//printf("Got the second edge %d\n",temp4);
 			//add the edge to the graph
 		//	printf("adding");
 			twoDArray[temp3][temp4] = 1;
@@ -81,30 +81,31 @@ int main(int argc, char **argv)
 		printf("\n");
 	}*/
 	//Warshaws Algorithum
-	if(projectnumer == 1)
+	if(projectnum == 1)
 	{
-		printf("Warshalls\n");
+		printf("Warshalls Transitive Closure\n");
 		warshalls(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}
-	else if(projectnumber == 2)
+	else if(projectnum == 2)
 	{
-		printf("Warshalls\n");
+		printf("Warshalls Transitive Closure\n");
 		warshalls(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}
-	else if (projectnumer == 3)
+	else if (projectnum == 3)
 	{
 		printf("Bag of Tasks \n");
 		bagOfTask(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}
-	else if (projectnumer == 4)
+	else if (projectnum == 4)
 	{
 		printf("Bag of Tasks \n");
 		bagOfTask(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}
+	freeAll(twoDArray,warPath,numberOfEdges);
 	/*printf("Warshalls\n");
 	warshalls(twoDArray,warPath,numberOfEdges);
 	printGraph(warPath,numberOfEdges);

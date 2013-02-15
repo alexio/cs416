@@ -9,17 +9,18 @@ void warshalls(int **boolMatrix, int **warPath, int numberOfElements);
 
 void bagOfTask(int **boolMatrix, int **warPath, int numberOfElements);
 
-typedef struct Queue
+struct Queue
 {
 	int cap;
 	int size;
 	int head;
 	int tail;
 	int * elements;
-}
+};
 
-Queue * createQueue(int elementsMax);
-void destroyQueue(Queue *removed);
-void dequeue(Queue *queue);
-void enqueue(Queue *queue, int adding);
+struct Queue * createQueue(int elementsMax);
+void destroyQueue(struct Queue *removed);
+void dequeue(struct Queue *queue);
+void enqueue(struct Queue *queue, int adding);
+void freeAll(int **boolMatrix, int **warPath, int size);
 #endif

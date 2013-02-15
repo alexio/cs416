@@ -28,7 +28,7 @@ int **createArray(int numOfElements) {
 	}
 
 	//initialize the array to all zero to start with
-	printf("First thingy %d",array[0][0]);
+	//printf("First thingy %d",array[0][0]);
 	return array; 
 }
 
@@ -70,6 +70,7 @@ void printGraph(int **graph, int numOfElements)
 {
 	int i;
 	int j;
+	printf("----------------\n");
 	for(i = 0 ; i < numOfElements; i++)
 	{
 		for(j = 0 ; j < numOfElements ; j++)
@@ -78,6 +79,7 @@ void printGraph(int **graph, int numOfElements)
 		}
 		printf("\n");
 	}
+	printf("----------------\n");
 }
 
 
@@ -87,7 +89,7 @@ void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
 	int i;
 	int j;
 	int k;
-	Queue *tempQ = createQueue(numOfElements);
+	struct Queue *tempQ = createQueue(numOfElements);
 	for(i = 0 ; i<numOfElements; i++)
 	{
 		for(j = 0; j < numOfElements; j++)
@@ -106,9 +108,9 @@ void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
 	}
 }
 
-Queue * createQueue(int elementMax)
+struct Queue * createQueue(int elementMax)
 {
-	Queue *queue = (Queue *) malloc(sizeof(Queue));
+	struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
 	queue->elements = (int *)malloc(sizeof(int) * elementMax);
 	queue->size = 0 ; 
 	queue->cap = elementMax;
@@ -118,7 +120,7 @@ Queue * createQueue(int elementMax)
 }
 
 
-void dequeue(Queue *queue)
+void dequeue(struct Queue *queue)
 {
 	if(queue->size == 0)
 	{
@@ -138,14 +140,14 @@ void dequeue(Queue *queue)
 	return;
 }
 
-void enqueue(Queue * queue, int addItem)
+void enqueue(struct Queue * queue, int addItem)
 {
 	if(queue->size == queue->cap)
 	{
 		printf("The queue is full cannot add more elements \n");
 	}
 	else
-	}
+	{
 		//increment the size and move the tail to one ahead
 		queue->size++;
 		queue->tail = queue->tail + 1;
@@ -155,5 +157,18 @@ void enqueue(Queue * queue, int addItem)
 		}
 		//add the new element
 		queue->elements[queue->tail] = addItem;
+	}
+}
+
+
+void freeAll(int **boolMatrix, int **warPath,int size)
+{
+	int i;
+	for(i = 0 ; i < size ; i++)
 	{
+		free(boolMatrix[i]);
+		free(warPath[i]);
+	}
+	free(boolMatrix);
+	free(warPath);
 }

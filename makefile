@@ -7,7 +7,7 @@ debug:
 	make DEBUG=TRUE
 	
 warshall_tc: main.o operations.o
-	$(CC) $(CCFLAGS) -o sl main.o operations.o
+	$(CC) $(CCFLAGS) -o warshall_tc main.o operations.o
 
 main.o: main.c
 	$(CC) $(CCFLAGS) -c main.c

@@ -3,7 +3,6 @@
 #include "operations.h"
 #include <math.h>
 #include <string.h>
-#include <malloc.h>
 
 
 int **createArray(int numOfElements) {

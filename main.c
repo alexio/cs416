@@ -2,16 +2,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 #include "operations.h"
+
+#define maxline 250
 
 int main(int argc, char **argv)
 {
+	struct timeval time_start, time_end;
+	gettimeofday(&time_start, NULL);
+
+	if (argc < 3) {
+		printf("ERROR: Insufficient Inputs!\n");
+		return 0;
+	}
 	char *projectnumber = argv[1]; //This is the project that we want to run
 	char *inputFile = argv[2];
 	int projectnum = atoi(projectnumber);
 	FILE *indexFile;
 	size_t length = 0 ;
-	char *temp;
+	char *temp = calloc(maxline, sizeof(char));
 	int count = 0;
 	//struct adjLL *storage;
 	//struct node *nodeone;
@@ -111,5 +121,9 @@ int main(int argc, char **argv)
 	printGraph(warPath,numberOfEdges);
 	//Bag of Tasks
 	bagOfTask(twoDArray,warPath,numberOfEdges);*/
+
+	gettimeofday(&time_end, NULL);
+	printf("Time: %ld us\n", ((time_end.tv_sec * 1000000 + time_end.tv_usec)
+		  - (time_start.tv_sec * 1000000 + time_start.tv_usec)));
 	return 0;
 }

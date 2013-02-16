@@ -3,26 +3,24 @@
 #include "operations.h"
 #include <math.h>
 #include <string.h>
+#include <unistd.h>
+#include <pthread.h>
 
-
-int **createArray(int numOfElements) {
+struct row *createArray(int numOfElements) {
 	int i = 0;
 	int j;
-//	int array[numOfElements][numOfElements] = { {0 } };
-	int **array = (int **) malloc(numOfElements*(sizeof(int *)));
+	//	int array[numOfElements][numOfElements] = { {0 } };
+	struct row *array = (struct row *) malloc(numOfElements*(sizeof(struct row)));
 	for(i = 0; i< numOfElements; i++)
 	{
-		//for(j = 0 ; j < numOfElements ; j++)
-		//{
-			array[i] = (int *) calloc(numOfElements,(sizeof(int)));
-		//}	 
+		array[i] = createRow(numOfElements);
 	}
 	for(i = 0; i< numOfElements; i++)
 	{
 		//printf("i is: %d\n",i);
 		for(j = 0 ; j < numOfElements ; j++)
 		{
-			array[i][j] = 0;
+			array[i].edgeNums[j] = 0;
 		}	 
 	}
 
@@ -31,33 +29,47 @@ int **createArray(int numOfElements) {
 	return array; 
 }
 
-void warshalls(int **boolMatrix, int **warPath, int numOfElements)
+void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,int numberOfThreads)
 {
 	int i;
 	int j;
 	int q;
+	//int threadID = 0 ;
+	//pid_t pid;
+	int offSetValue;
+	int z =0 ;
+	int leftOver;
 
 	for(i = 0 ; i < numOfElements; i++)
 	{
 		for(j = 0 ; j < numOfElements ; j++)
 		{
 			//Copy over the matrix to the path
-			warPath[i][j] = boolMatrix[i][j];
+			warPath[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
 		}
 	}
-
-	for(i = 0 ; i < numOfElements; i++)
+        	
+	offSetValue = 1 + ((numOfElements-1) / numberOfThreads);
+	leftOver = numOfElements % numberOfThreads;
+	for(i = 0 ; i < numOfElements; i+=offSetValue)
 	{
-		for(j = 0 ; j < numOfElements ; j++)
+		// do parrelle and multithreading here
+		//offSetValue = 1 + ((numberOfElements-1) / numberOfThreads);
+		if(fork() == 0)
 		{
-			if (warPath[i][j] == 1)
+			//child
+			//lock the mutex
+			for(z=1; z < offSetValue ; z++, i++)
 			{
-				for(q = 0 ; q < numOfElements ; q++)
-				{
-					if (warPath[j][q] == 1)
+				pthread_mutex_lock(warPath[i].lock);
+
+				for(j = 0 ; j < numOfElements ; j++)
+				{		
+					for(q = 0 ; q < numOfElements ; q++)
 					{
-						warPath[i][q] = 1;
+						warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
 					}
+					pthread_mutex_unlock(warPath[i].lock);
 				}
 			}
 		}
@@ -65,7 +77,7 @@ void warshalls(int **boolMatrix, int **warPath, int numOfElements)
 }
 
 
-void printGraph(int **graph, int numOfElements)
+void printGraph(struct row *graph, int numOfElements)
 {
 	int i;
 	int j;
@@ -74,7 +86,7 @@ void printGraph(int **graph, int numOfElements)
 	{
 		for(j = 0 ; j < numOfElements ; j++)
 		{
-			printf("%d",graph[i][j]);
+			printf("%d",graph[i].edgeNums[j]);
 		}
 		printf("\n");
 	}
@@ -83,7 +95,7 @@ void printGraph(int **graph, int numOfElements)
 
 
 
-void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
+void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 {
 	int i;
 	int j;
@@ -93,7 +105,7 @@ void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
 	{
 		for(j = 0; j < numOfElements; j++)
 		{
-			warPath[i][j] = boolMatrix[i][j];
+			warPath[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
 		}
 	}
 	for(k = 0; k < numOfElements ; k++)
@@ -107,6 +119,16 @@ void bagOfTask(int **boolMatrix, int **warPath, int numOfElements)
 	}
 }
 
+struct row createRow(int numberOfEdges)
+{
+	struct  row *newRow = (struct row *) malloc(sizeof(struct row));
+	newRow->edgeNums = (int *)malloc(sizeof(int) * numberOfEdges);
+	//initialize the lock
+	pthread_mutex_init(newRow->lock,NULL);
+	return *newRow;
+}
+
+
 struct Queue * createQueue(int elementMax)
 {
 	struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
@@ -117,7 +139,6 @@ struct Queue * createQueue(int elementMax)
 	queue->tail = -1;
 	return queue;
 }
-
 
 void dequeue(struct Queue *queue)
 {
@@ -160,13 +181,13 @@ void enqueue(struct Queue * queue, int addItem)
 }
 
 
-void freeAll(int **boolMatrix, int **warPath,int size)
+void freeAll(struct row *boolMatrix, struct row *warPath,int size)
 {
 	int i;
 	for(i = 0 ; i < size ; i++)
 	{
-		free(boolMatrix[i]);
-		free(warPath[i]);
+		free(boolMatrix[i].edgeNums);
+		free(warPath[i].edgeNums);
 	}
 	free(boolMatrix);
 	free(warPath);

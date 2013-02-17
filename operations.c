@@ -100,7 +100,7 @@ void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 	int i;
 	int j;
 	int k;
-	struct Queue *tempQ = createQueue(numOfElements);
+	//struct Queue *tempQ = createQueue(numOfElements);
 	for(i = 0 ; i<numOfElements; i++)
 	{
 		for(j = 0; j < numOfElements; j++)
@@ -112,9 +112,9 @@ void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 	{
 		for(i = 0 ; i < numOfElements ; i++)
 		{
-			//enqueue(i,k);
+			/*enqueue(i,k);
 			enqueue(tempQ,i);
-			enqueue(tempQ,j);
+			enqueue(tempQ,j);*/
 		}
 	}
 }
@@ -128,47 +128,53 @@ struct row createRow(int numberOfEdges)
 	return *newRow;
 }
 
-
+/*arg should be number of rows*/
 struct Queue * createQueue(int elementMax)
 {
 	struct Queue *queue = (struct Queue *) malloc(sizeof(struct Queue));
-	queue->elements = (int *)malloc(sizeof(int) * elementMax);
 	queue->size = 0 ; 
 	queue->cap = elementMax;
-	queue->head = 0;
-	queue->tail = -1;
+	queue->head = NULL;
+	queue->tail = NULL;
 	return queue;
 }
 
-void dequeue(struct Queue *queue)
+struct row *dequeue(struct Queue *queue)
 {
+	struct row* ptr;
 	if(queue->size == 0)
 	{
 		printf("The queue contains no elements \n");
-		return;
+		return NULL;
 	}
-	else
+	else /*return head of queue rowList*/
 	{
-		//Decrement the size and move the head up by one to take the place of the removed element
+		ptr = queue->head->element; /*grab head element*/
+		struct rowList* free_head = queue->head; /*move to next elment in the queue*/
+		free(free_head);
+		
 		queue->size--;
-		queue->head++;
-		if(queue->head == queue->cap)
-		{
-			queue->head = 0;
+		if(queue->size == 0){ /*if queue is empty, set queue list equal to null*/
+			queue->head = NULL;
+			queue->tail = NULL;
+		}
+		else{
+			queue->head = queue->head->next;
 		}
 	}
-	return;
+	return ptr;
 }
 
-void enqueue(struct Queue * queue, int addItem)
+void enqueue(struct Queue * queue, struct row* element)
 {
+		
 	if(queue->size == queue->cap)
 	{
 		printf("The queue is full cannot add more elements \n");
 	}
 	else
 	{
-		//increment the size and move the tail to one ahead
+		/* //increment the size and move the tail to one ahead
 		queue->size++;
 		queue->tail = queue->tail + 1;
 		if (queue->tail == queue->cap)
@@ -176,7 +182,23 @@ void enqueue(struct Queue * queue, int addItem)
 			queue->tail = 0;
 		}
 		//add the new element
-		queue->elements[queue->tail] = addItem;
+		queue->elements[queue->tail] = addItem; */
+		
+		
+		struct rowList* rowL;
+		
+		if(queue->head == NULL){ /*if the queue is empty, set head*/
+			rowL = (struct rowList*)malloc(sizeof(struct rowList));
+			rowL->element = element;
+			queue->head = rowL;
+			queue->tail = queue->head;
+		}
+		else{ /*else add row to end of queue*/
+			rowL = (struct rowList*)malloc(sizeof(struct rowList));
+			rowL->element = element;
+			queue->tail->next = rowL;
+		}
+		queue->size++;
 	}
 }
 

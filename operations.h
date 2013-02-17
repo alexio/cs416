@@ -9,25 +9,41 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numberOfElements
 
 void bagOfTask(struct row *boolMatrix, struct row *warPath, int numberOfElements);
 
-struct Queue
-{
-	int cap;
-	int size;
-	int head;
-	int tail;
-	int * elements;
-};
-
+/*contains a row of the matrix*/
 struct row
 {
 	int *edgeNums;
 	pthread_mutex_t *lock;
 };
 
+/*makes a linked list for Queue operations*/
+struct rowList
+{
+	struct row* element;
+	struct rowList* next;
+};
+
+struct Queue
+{
+	int cap; /*do we need a cap?*/
+	int size;
+	struct rowList* head;
+	struct rowList* tail;
+};
+
+/*struct is to be used when passing multiple args to the thread method*/
+struct Params
+{
+	int i; 
+	int k;
+	int numOfElements;
+	struct row* element;
+};
+
 struct row createRow(int numberOfEdges);
 struct Queue * createQueue(int elementsMax);
 void destroyQueue(struct Queue *removed);
-void dequeue(struct Queue *queue);
-void enqueue(struct Queue *queue, int adding);
+struct row* dequeue(struct Queue *queue);
+void enqueue(struct Queue *queue, struct row* element);
 void freeAll(struct row *boolMatrix, struct row *warPath, int size);
 #endif

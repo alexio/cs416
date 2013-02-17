@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 			//Create a 2d array to store the edges and verticies
 			printf("Number of edges = %s",temp);
 			numberOfEdges = atoi(temp);
-			//printf("Making the array \n");
+			printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
 			warPath = createArray(numberOfEdges);
 			printf("Done making the array %d\n",numberOfEdges);

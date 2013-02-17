@@ -12,10 +12,12 @@ struct row *createArray(int numOfElements) {
 	int j;
 	//	int array[numOfElements][numOfElements] = { {0 } };
 	struct row *array = (struct row *) malloc(numOfElements*(sizeof(struct row)));
+	printf("okay we get here \n");
 	for(i = 0; i< numOfElements; i++)
 	{
 		array[i] = createRow(numOfElements);
 	}
+	printf("Done with making the rows \n");
 	for(i = 0; i< numOfElements; i++)
 	{
 		//printf("i is: %d\n",i);
@@ -26,7 +28,7 @@ struct row *createArray(int numOfElements) {
 	}
 
 	//initialize the array to all zero to start with
-	//printf("First thingy %d",array[0][0]);
+	printf("First thingy %d",array[0].edgeNums[0]);
 	return array; 
 }
 
@@ -40,9 +42,9 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	int offSetValue;
 	int z =0 ;
 	int leftOver;
-	int count = 0;
-	sem_t mutex; 
-
+	//int count = 0;
+	sem_t mutex;
+	 
 	sem_init(&mutex,1,0);
 	for(i = 0 ; i < numOfElements; i++)
 	{
@@ -70,25 +72,30 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 			//lock the mutex
 			for(z=1; z < offSetValue ; z++, i++)
 			{
-				pthread_mutex_lock(warPath[i].lock);
+				//pthread_mutex_lock(warPath[i].lock);
 				for(j = 0 ; j < numOfElements ; j++)
 				{		
 					for(q = 0 ; q < numOfElements ; q++)
 					{
 						warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
 					}
-					pthread_mutex_unlock(warPath[i].lock);
+					//pthread_mutex_unlock(warPath[i].lock);
 				}
 			}
 			sem_post(&mutex);
+			printf("Posting to semaphore \n");
 			exit(0);
 		}
 		i+=offSetValue;
 	}
-	while(q != numberOfThreads)
+	q = 0;
+	printf("number of threads \n%d",numberOfThreads);
+	while(q < numberOfThreads)
 	{
-		sem_trywait(&mutex);
+		printf("\nwaiting\n");
+		sem_wait(&mutex);
 		q++;
+		printf("q is %d\n",q); 
 	}
 }
 
@@ -140,7 +147,8 @@ struct row createRow(int numberOfEdges)
 	struct  row *newRow = (struct row *) malloc(sizeof(struct row));
 	newRow->edgeNums = (int *)malloc(sizeof(int) * numberOfEdges);
 	//initialize the lock
-	pthread_mutex_init(newRow->lock,NULL);
+	//pthread_mutex_init(newRow->lock,NULL);
+	//printf("Making a row \n");
 	return *newRow;
 }
 

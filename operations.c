@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
 
 struct row *createArray(int numOfElements) {
 	int i = 0;
@@ -39,7 +40,10 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	int offSetValue;
 	int z =0 ;
 	int leftOver;
+	int count = 0;
+	sem_t mutex; 
 
+	sem_init(&mutex,1,0);
 	for(i = 0 ; i < numOfElements; i++)
 	{
 		for(j = 0 ; j < numOfElements ; j++)
@@ -49,20 +53,24 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 		}
 	}
         	
-	offSetValue = 1 + ((numOfElements-1) / numberOfThreads);
+	offSetValue = numOfElements/ numberOfThreads;
 	leftOver = numOfElements % numberOfThreads;
-	for(i = 0 ; i < numOfElements; i+=offSetValue)
+	printf("Getting here \n");
+	printf("original offset value %d  %d  %d\n",offSetValue,numOfElements,numberOfThreads);
+	for(i = 0 ; i <= numOfElements;)
 	{
 		// do parrelle and multithreading here
 		//offSetValue = 1 + ((numberOfElements-1) / numberOfThreads);
+		//Have to tell if it is the last one
+		printf("offset values are : %d\n",i);
 		if(fork() == 0)
 		{
+			printf("Process created \n");
 			//child
 			//lock the mutex
 			for(z=1; z < offSetValue ; z++, i++)
 			{
 				pthread_mutex_lock(warPath[i].lock);
-
 				for(j = 0 ; j < numOfElements ; j++)
 				{		
 					for(q = 0 ; q < numOfElements ; q++)
@@ -72,7 +80,15 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 					pthread_mutex_unlock(warPath[i].lock);
 				}
 			}
+			sem_post(&mutex);
+			exit(0);
 		}
+		i+=offSetValue;
+	}
+	while(q != numberOfThreads)
+	{
+		sem_trywait(&mutex);
+		q++;
 	}
 }
 

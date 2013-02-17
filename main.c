@@ -4,6 +4,8 @@
 #include <string.h>
 #include <sys/time.h>
 #include "operations.h"
+#include <semaphore.h>
+
 
 #define maxline 250
 
@@ -48,7 +50,7 @@ int main(int argc, char **argv)
 		if (count == 0)
 		{
 			printf("Threads or Processes = %s",temp);
-			numberOfThreads = *temp;
+			numberOfThreads = atoi(temp);
 		}
 		else if (count == 1)
 		{
@@ -58,7 +60,7 @@ int main(int argc, char **argv)
 			//printf("Making the array \n");
 			twoDArray = createArray(numberOfEdges);
 			warPath = createArray(numberOfEdges);
-			//printf("Done making the array %d %d\n",i,numberOfEdges);
+			printf("Done making the array %d\n",numberOfEdges);
 		}
 		else
 		{

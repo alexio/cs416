@@ -17,8 +17,11 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numEdges, int nu
 	int leftOver;
 	//int count = 0;
 	sem_t sem;
-	
-	sharedMem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
+	int current; //current position in the graph
+	char * mapedSem;
+	char * mapedArray;
+	mapedSem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
+	mapedArray = mmap(NULL, sizeof(struct row *), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
 	 
 	sem_init(&sem,1,0);
 	
@@ -44,26 +47,31 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numEdges, int nu
 		//Have to tell if it is the last one
 		
 		printf("offset values are : %d\n",i);
-		for(j = 0 ; j < numOfElements ; j++)
+		for(j = 0 ; j < numOfElements ; j++)//row number
 		{	
-			if((pid = fork()) != 0)
+			if((pid = fork()) == 0)
 			{
 				printf("Process created \n");
-				for(q = 0 ; q < numOfElements ; q++)
+				until = j+offSetValue;
+				while(j != until)
 				{
-					warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
+					for(q = 0 ; q < numOfElements ; q++)
+					{
+						warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
+					}
+					j++;//j will go until the upperbound is reached
 				}
-			
 				sem_post(&sem);
 				printf("Posting to semaphore \n");
 				exit(0);
 			}
+			j = j+offSetValue;
 		}
 		i+=offSetValue;
 	}
 	q = 0;
 	printf("number of threads \n%d",numberOfThreads);
-	while(q < numberOfThreads)
+	while(q < numberOfThreads) //wait for all the threads to finish
 	{
 		printf("\nwaiting\n");
 		sem_wait(&sem);

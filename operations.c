@@ -32,7 +32,7 @@ struct row *createArray(int numOfElements) {
 	return array; 
 }
 
-void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,int numberOfThreads)
+/*void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,int numberOfThreads)
 {
 	int i;
 	int j;
@@ -55,10 +55,10 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	
 	//Create all the threads
-	/*for(k = 0 ; k < numberOfThreads ; k++)
+	for(k = 0 ; k < numberOfThreads ; k++)
 	{
 		pthread_create(&thread[k], &attr, workerThread, parameter); 
-	}*/
+	}
 
 	sem_init(&sem,1,0);
 	
@@ -95,10 +95,10 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 					pthread_create(&thread[k], &attr, workerThread, parameter); 
 				}
 
-			/*	for(q = 0 ; q < numOfElements ; q++)
+				for(q = 0 ; q < numOfElements ; q++)
 				{
 					warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
-				}*/
+				}
 			
 				sem_post(&sem);
 				printf("Posting to semaphore \n");
@@ -117,16 +117,7 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 		printf("q is %d\n",q); 
 	}
 }
-
-
-void workerThread()
-{
-
-
-
-}
-
-
+*/
 
 void printGraph(struct row *graph, int numOfElements)
 {
@@ -146,7 +137,7 @@ void printGraph(struct row *graph, int numOfElements)
 
 
 
-void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
+/*void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 {
 	int i;
 	int j;
@@ -163,13 +154,13 @@ void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 	{
 		for(i = 0 ; i < numOfElements ; i++)
 		{
-			/*enqueue(i,k);
+			enqueue(i,k);
 			enqueue(tempQ,i);
-			enqueue(tempQ,j);*/
+			enqueue(tempQ,j);
 		}
 	}
 }
-
+*/
 struct row createRow(int numberOfEdges)
 {
 	struct  row *newRow = (struct row *) malloc(sizeof(struct row));

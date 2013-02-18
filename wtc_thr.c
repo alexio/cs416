@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-void bagOfTask(struct row* boolMatrix, struct row* warPath, int numOfElements, int thread_num)
+void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, int thread_num)
 {
 	int i, j, k;
 	struct Params *input = (struct params*)malloc(sizeof(struct Params));

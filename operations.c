@@ -37,6 +37,7 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	int i;
 	int j;
 	int q;
+	int k;
 	//int threadID = 0 ;
 	//pid_t pid;
 	int pid;
@@ -44,9 +45,21 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	int leftOver;
 	//int count = 0;
 	sem_t sem;
-	
+	pthread_t thread[numberOfThreads];	
+	pthread_attr_t attr;
+
 	//sem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS,shmat(shmget(),) , 0);
 	 
+
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	
+	//Create all the threads
+	/*for(k = 0 ; k < numberOfThreads ; k++)
+	{
+		pthread_create(&thread[k], &attr, workerThread, parameter); 
+	}*/
+
 	sem_init(&sem,1,0);
 	
 	for(i = 0 ; i < numOfElements; i++)
@@ -76,10 +89,16 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 			if((pid = fork()) != 0)
 			{
 				printf("Process created \n");
-				for(q = 0 ; q < numOfElements ; q++)
+
+				for(k = 0 ; k < numberOfThreads ; k++)
+				{
+					pthread_create(&thread[k], &attr, workerThread, parameter); 
+				}
+
+			/*	for(q = 0 ; q < numOfElements ; q++)
 				{
 					warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
-				}
+				}*/
 			
 				sem_post(&sem);
 				printf("Posting to semaphore \n");
@@ -98,6 +117,15 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 		printf("q is %d\n",q); 
 	}
 }
+
+
+void workerThread()
+{
+
+
+
+}
+
 
 
 void printGraph(struct row *graph, int numOfElements)

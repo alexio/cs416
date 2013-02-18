@@ -39,6 +39,7 @@ struct Params
 	int* i; 
 	int* k;
 	int numOfElements;
+	int numOfRows;
 	struct row** element;
 };
 

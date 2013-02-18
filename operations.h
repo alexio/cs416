@@ -50,3 +50,4 @@ struct row* dequeue(struct Queue *queue);
 void enqueue(struct Queue *queue, struct row* element);
 void freeAll(struct row *boolMatrix, struct row *warPath, int size);
 #endif
+

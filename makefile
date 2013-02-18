@@ -22,4 +22,3 @@ endif
 clean:
 	rm -f warshall_tc
 	rm -f *.o
-

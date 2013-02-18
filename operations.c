@@ -266,3 +266,4 @@ void freeAll(struct row *boolMatrix, struct row *warPath,int size)
 	free(boolMatrix);
 	free(warPath);
 }
+

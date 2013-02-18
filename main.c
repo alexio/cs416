@@ -45,6 +45,7 @@ int main(int argc, char **argv)
 		printf("ERROR: Invalid filename \n");
 		return 0;
 	}
+	
 	while(getline(&temp,&length,indexFile) != -1)
 	{
 		if (count == 0)
@@ -97,25 +98,25 @@ int main(int argc, char **argv)
 	//Warshaws Algorithum
 	if(projectnum == 1)
 	{
-		printf("Warshalls Transitive Closure\n");
+		printf("Warshalls Transitive Closure - Process\n");
 		warshalls(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if(projectnum == 2)
 	{
-		printf("Warshalls Transitive Closure\n");
+		printf("Warshalls Transitive Closure - Threads\n");
 		warshalls(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if (projectnum == 3)
 	{
-		printf("Bag of Tasks \n");
+		printf("Bag of Tasks - Process\n");
 		bagOfTask(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if (projectnum == 4)
 	{
-		printf("Bag of Tasks \n");
+		printf("Bag of Tasks - Threads\n");
 		bagOfTask(twoDArray,warPath,numberOfEdges);
 		printGraph(warPath,numberOfEdges);
 	}

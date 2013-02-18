@@ -45,7 +45,7 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	//int count = 0;
 	sem_t sem;
 	
-	sem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS,shmat(shmget(),) , 0);
+	//sem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS,shmat(shmget(),) , 0);
 	 
 	sem_init(&sem,1,0);
 	

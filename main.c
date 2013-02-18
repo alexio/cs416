@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 	else if(projectnum == 2)
 	{
 		printf("Warshalls Transitive Closure - Threads\n");
-		warshalls(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		warshallsThreaded(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if (projectnum == 3)

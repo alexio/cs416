@@ -7,6 +7,8 @@ void printGraph(struct row *graph, int numberOfElements);
 
 void warshalls(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
 
+void warshallsThreaded(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
+
 void bagOfTask(struct row *boolMatrix, struct row *warPath, int numberOfElements);
 
 /*contains a row of the matrix*/
@@ -37,6 +39,7 @@ struct Params
 	int* i; 
 	int* k;
 	int numOfElements;
+	int numOfRows;
 	struct row** element;
 };
 

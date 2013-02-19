@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS = -g -Wall -lpthread
+CCFLAGS = -g -Wall -pthread
 
 all: warshall_tc
 

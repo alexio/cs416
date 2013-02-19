@@ -95,7 +95,7 @@ struct row *createArray(int numOfElements) {
 					pthread_create(&thread[k], &attr, workerThread, parameter); 
 				}
 
-			/*	for(q = 0 ; q < numOfElements ; q++)
+				for(q = 0 ; q < numOfElements ; q++)
 				{
 					warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
 				}
@@ -124,7 +124,8 @@ void workerThread()
 
 
 
-}*/
+}
+*/
 
 
 

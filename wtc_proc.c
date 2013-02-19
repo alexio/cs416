@@ -24,12 +24,12 @@ int * sharedMemory(struct *row sharedRowArray)
 }
 
 
-
 void warshallsProcessed(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess) {
 
 	pid_t pid[numProcess];
-		sem_t *sharedMem;
-	sem_t kLock;
+	//sem_t *sharedMem;
+	sem_t kLock = *sem = sem_open("shared_semaphore", O_CREAT);//shared semaphore
+	sharedMemory(warPath);
 	int i;
 		int until;
 	int j,q,z;
@@ -40,9 +40,10 @@ void warshallsProcessed(struct row* boolMatrix, struct row* warPath, int numEdge
 	int *ktmp;
 	int temp;
 	/* Shared memory */
-	sharedMem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
-	sharedRow = mmap(NULL, sizeof(struct row), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
-	ktmp = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
+	
+	//sharedMem = mmap(NULL, sizeof(sem_t), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
+	//isharedRow = mmap(NULL, sizeof(struct row), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
+	//ktmp = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, -0);
 	/* Initializing a shared binary semaphore */
 	sem_init(sharedMem, 1, 0);
 	sem_init(&kLock,1,0);	

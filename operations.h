@@ -1,6 +1,8 @@
 #ifndef OPERATIONS_H_
 #define OPERATIONS_H_
 
+#include <pthread.h>
+
 struct row *createArray(int numOfElements);
 
 void printGraph(struct row *graph, int numberOfElements);

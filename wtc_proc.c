@@ -6,10 +6,21 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "operations.h"
+#include <sys/shm.h>
+#include <sys/stat.h>
 
 
-
-
+int * sharedMemory(struct *row sharedRowArray)
+{
+	int seg_id;
+	int seg_size;
+	struct shmid_ds shmbuffer;
+	int *k;
+	seg_id = shmget(IPC_PRIVATE, seg_size, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+	sharedRowArray = (struct row *) shmat(seg_id, NULL ,0);
+	k = (struct row *) shmat(seg_id, NULL ,0);
+	return k;
+}
 
 
 

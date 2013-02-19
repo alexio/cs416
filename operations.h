@@ -1,6 +1,8 @@
 #ifndef OPERATIONS_H_
 #define OPERATIONS_H_
 
+#include <pthread.h>
+
 struct row *createArray(int numOfElements);
 
 void printGraph(struct row *graph, int numberOfElements);
@@ -8,6 +10,8 @@ void printGraph(struct row *graph, int numberOfElements);
 void warshalls(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
 
 void warshallsThreaded(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
+
+void warshallsProcessed(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
 
 void bagOfTask(struct row *boolMatrix, struct row *warPath, int numberOfElements);
 
@@ -49,5 +53,6 @@ void destroyQueue(struct Queue *removed);
 struct row* dequeue(struct Queue *queue);
 void enqueue(struct Queue *queue, struct row* element);
 void freeAll(struct row *boolMatrix, struct row *warPath, int size);
+void *bagIt(void *params);
 #endif
 

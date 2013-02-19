@@ -117,7 +117,17 @@ struct row *createArray(int numOfElements) {
 		printf("q is %d\n",q); 
 	}
 }
+
+
+void workerThread()
+{
+
+
+
+}
 */
+
+
 
 void printGraph(struct row *graph, int numOfElements)
 {
@@ -137,7 +147,7 @@ void printGraph(struct row *graph, int numOfElements)
 
 
 
-/*void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
+void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 {
 	int i;
 	int j;
@@ -154,13 +164,13 @@ void printGraph(struct row *graph, int numOfElements)
 	{
 		for(i = 0 ; i < numOfElements ; i++)
 		{
-			enqueue(i,k);
+			/*enqueue(i,k);
 			enqueue(tempQ,i);
-			enqueue(tempQ,j);
+			enqueue(tempQ,j);*/
 		}
 	}
 }
-*/
+
 struct row createRow(int numberOfEdges)
 {
 	struct  row *newRow = (struct row *) malloc(sizeof(struct row));
@@ -257,3 +267,5 @@ void freeAll(struct row *boolMatrix, struct row *warPath,int size)
 	free(boolMatrix);
 	free(warPath);
 }
+
+>>>>>>> 6cd48f61817ca138ecd212e402f73d9082773aa9

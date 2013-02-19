@@ -30,6 +30,7 @@ void warshallsThreaded(struct row* boolMatrix, struct row* warPath, int numOfEle
 	input->numOfElements = numOfElements;
 	
 	pthread_t threads[thread_num];
+	
 	/*pthread_attr_t attr; /thread attrributes*/
 	
 	for(i = 0 ; i<numOfElements; i++)
@@ -66,7 +67,7 @@ void warshallsThreaded(struct row* boolMatrix, struct row* warPath, int numOfEle
 				if(check == 'y' && t_index == thread_num && (i == (numOfElements - 1))){
  					input->numOfRows = row_counter;
 					/*implement the max number of threads that can be operating at a given time*/
-					pthread_create(&threads[t_index], NULL, bagIt, input);
+					pthread_create(&threads[t_index], NULL, (void *)&bagIt, (void *) &input);
 					t_index++;
 					row_counter = 1;
 				}
@@ -83,5 +84,18 @@ void warshallsThreaded(struct row* boolMatrix, struct row* warPath, int numOfEle
 	}
 }
 
+void *bagIt(void* param){
+	printf("Thread working \n");
+	int t;
+	int j;			
+	struct Params *input = (struct Params*)param;
+	
+	for(t = 0; t < input->numOfRows; t++){
 
-
+		for(j = 0; j < input->numOfElements; j++){
+			
+			input->element[t];//->edgeNums//[input->i[t]][j]= input->element[t]->edgeNums[input->i[t]][j] || (input->element[t]->edgeNums[input->i[t]][input->k[t]] && input->element[t]->edgeNums[input->k[t]][j]);
+		}
+	}
+	return NULL;
+}

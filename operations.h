@@ -9,6 +9,8 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numberOfElements
 
 void warshallsThreaded(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
 
+void warshallsProcessed(struct row *boolMatrix, struct row *warPath, int numberOfElements, int numberOfThreads);
+
 void bagOfTask(struct row *boolMatrix, struct row *warPath, int numberOfElements);
 
 /*contains a row of the matrix*/

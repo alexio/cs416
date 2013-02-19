@@ -70,6 +70,7 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, i
 
 
 void *bagIt(void* param){
+	printf("Thread working \n");
 	int t;
 	int j;			
 	struct Params *input = (struct Params*)param;

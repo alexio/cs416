@@ -37,10 +37,10 @@ struct Queue
 struct Params
 {
 	int* i; 
-	int* k;
+	int k;
 	int numOfElements;
 	int numOfRows;
-	struct row** element;
+	struct row* element;
 };
 
 struct row createRow(int numberOfEdges);

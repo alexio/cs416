@@ -5,6 +5,7 @@
 #include <sys/time.h>
 #include "operations.h"
 #include <semaphore.h>
+#include "wtc_thr.c"
 
 
 #define maxline 250

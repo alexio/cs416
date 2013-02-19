@@ -32,7 +32,7 @@ struct row *createArray(int numOfElements) {
 	return array; 
 }
 
-void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,int numberOfThreads)
+/*void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,int numberOfThreads)
 {
 	int i;
 	int j;
@@ -55,10 +55,10 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	
 	//Create all the threads
-	/*for(k = 0 ; k < numberOfThreads ; k++)
+	for(k = 0 ; k < numberOfThreads ; k++)
 	{
 		pthread_create(&thread[k], &attr, workerThread, parameter); 
-	}*/
+	}
 
 	sem_init(&sem,1,0);
 	
@@ -98,7 +98,7 @@ void warshalls(struct row *boolMatrix, struct row *warPath, int numOfElements,in
 			/*	for(q = 0 ; q < numOfElements ; q++)
 				{
 					warPath[j].edgeNums[q] = warPath[j].edgeNums[q] || (warPath[j].edgeNums[i] && warPath[i].edgeNums[q]);
-				}*/
+				}
 			
 				sem_post(&sem);
 				printf("Posting to semaphore \n");
@@ -124,7 +124,7 @@ void workerThread()
 
 
 
-}
+}*/
 
 
 

@@ -9,13 +9,13 @@
 void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, int thread_num)
 {
 	int i, j, k;
-	struct Params *input = (struct params*)malloc(sizeof(struct Params));
+	struct Params *input = (struct Params*)malloc(sizeof(struct Params));
 	char check = 'n';
 	
 	input->numOfElements = numOfElements;
 	
 	pthread_t threads[thread_num];
-	pthread_attr_t attr; /*thread attrributes*/
+//	pthread_attr_t attr; /*thread attrributes*/
 	
 	for(i = 0 ; i<numOfElements; i++)
 	{
@@ -35,7 +35,7 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, i
 	
 	input->i = (int *)malloc(sizeof(int)*num_rows);
 	input->k = (int *)malloc(sizeof(int)*num_rows);
-	input->element = (int *)malloc(sizeof(struct row)*num_rows);
+	input->element = (struct row *)malloc(sizeof(struct row)*num_rows);
 	
 	int t_index = 0;
 	int row_counter = 0;
@@ -52,7 +52,7 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, i
 				if(check == 'y' && t_index == thread_num && (i == (numOfElements - 1))){
  					input->numOfRows = row_counter;
 					/*implement the max number of threads that can be operating at a given time*/
-					pthread_create(&threads[t_index], NULL, bagIt, input);
+					pthread_create(&threads[t_index], NULL, (void *)&bagIt, (void *) &input);
 					t_index++;
 					row_counter = 0;
 				}
@@ -68,16 +68,19 @@ void warshalls(struct row* boolMatrix, struct row* warPath, int numOfElements, i
 	}
 }
 
-void bagIt(void* param){
-				
-	struct Params * input = (struct Params *)param;
+
+void *bagIt(void* param){
+	int t;
+	int j;			
+	struct Params *input = (struct Params*)param;
 	
 	for(t = 0; t < input->numOfRows; t++){
 
 		for(j = 0; j < input->numOfElements; j++){
 			
-			input->element[t]->edgeNums[input->i[t]][j]= input->element[t]->edgeNums[input->i[t]][j] || (input->element[t]->edgeNums[input->i[t]][input->k[t]] && input->element[t]->edgeNums[input->k[t]][j]);
+			input->element[t];//->edgeNums//[input->i[t]][j]= input->element[t]->edgeNums[input->i[t]][j] || (input->element[t]->edgeNums[input->i[t]][input->k[t]] && input->element[t]->edgeNums[input->k[t]][j]);
 		}
 	}
+	return NULL;
 }
 

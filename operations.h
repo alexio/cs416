@@ -40,7 +40,7 @@ struct Params
 	int* k;
 	int numOfElements;
 	int numOfRows;
-	struct row** element;
+	struct row* element;
 };
 
 struct row createRow(int numberOfEdges);
@@ -49,5 +49,6 @@ void destroyQueue(struct Queue *removed);
 struct row* dequeue(struct Queue *queue);
 void enqueue(struct Queue *queue, struct row* element);
 void freeAll(struct row *boolMatrix, struct row *warPath, int size);
+void *bagIt(void *params);
 #endif
 

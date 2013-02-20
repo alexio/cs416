@@ -26,17 +26,13 @@ int main(int argc, char **argv)
 	char *temp = calloc(maxline, sizeof(char));
 	int count = 0;
 	int numberOfThreads = 0;
-	//struct adjLL *storage;
-	//struct node *nodeone;
-	//struct node *nodetwo;
+	
 	struct row *twoDArray;
 	struct row *warPath;
 	int numberOfEdges = 0;
 	int temp3 = 0;
 	int temp4 = 0 ;
-	//int i = 0 ;
-	//int j = 0 ;
-	//int currentIndex = 0 ;
+	
 	printf("Project number %d\n",projectnum);
 	printf("Input File: %s\n",inputFile);
 	indexFile = fopen(inputFile,"r");
@@ -55,7 +51,7 @@ int main(int argc, char **argv)
 		}
 		else if (count == 1)
 		{
-			//Create a 2d array to store the edges and verticies
+			/*Create a 2d array to store the edges and verticies*/
 			printf("Number of edges = %s",temp);
 			numberOfEdges = atoi(temp);
 			printf("Making the array \n");
@@ -65,21 +61,24 @@ int main(int argc, char **argv)
 		}
 		else
 		{
+			printf("Else :%d\n", count);
 			char *token = strtok(temp," ");
 			temp3 = atoi(token);
-			//printf("Got the first edge %d\n",temp3);
-			//free(token);
-			//tokenize and then turn into int
+			printf("Temp3 :%d\n", temp3);
+			/*printf("Got the first edge %d\n",temp3);
+			free(token);
+			tokenize and then turn into int*/
 			token = strtok(NULL," ");
 			temp4 = atoi(token);
-			//printf("Got the second edge %d\n",temp4);
-			//add the edge to the graph
-		//	printf("adding");
-			twoDArray[temp3].edgeNums[temp4] = 1;
-			twoDArray[temp4].edgeNums[temp3] = 1;
+			printf("Temp4 end :%d\n", temp4);
+			/*printf("Got the second edge %d\n",temp4);
+			add the edge to the graph
+			printf("adding");*/
+			twoDArray[temp3-1].edgeNums[temp4-1] = 1;
 		}
 		count++;
 	}
+	printf("close file\n");
 	fclose(indexFile);
 	printf("Printing the graph\n");
 	//int i;
@@ -99,13 +98,13 @@ int main(int argc, char **argv)
 	if(projectnum == 1)
 	{
 		printf("Warshalls Transitive Closure - Process\n");
-		warshallsProcessed(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		//warshallsProcessed(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if(projectnum == 2)
 	{
 		printf("Warshalls Transitive Closure - Threads\n");
-		//warshallsThreaded(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		warshallsThreaded(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if (projectnum == 3)

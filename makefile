@@ -6,8 +6,8 @@ all: warshall_tc
 debug:
 	make DEBUG=TRUE
 	
-warshall_tc: wtc.o operations.o wtc_thr.o wtc_proc.o
-	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o wtc_proc.o
+warshall_tc: wtc.o operations.o wtc_thr.o 
+	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o 
 
 wtc.o: wtc.c
 	$(CC) $(CCFLAGS) -c wtc.c
@@ -28,4 +28,3 @@ endif
 clean:
 	rm -f warshall_tc
 	rm -f *.o
->>>>>>> 6cd48f61817ca138ecd212e402f73d9082773aa9

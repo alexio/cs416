@@ -11,7 +11,7 @@ struct row *createArray(int numOfElements) {
 	int i = 0;
 	int j;
 	//	int array[numOfElements][numOfElements] = { {0 } };
-	struct row *array = (struct row *) malloc(numOfElements*(sizeof(struct row)));
+	struct row *array = (struct row *) calloc(numOfElements,(sizeof(struct row)));
 	printf("okay we get here \n");
 	for(i = 0; i< numOfElements; i++)
 	{
@@ -28,7 +28,7 @@ struct row *createArray(int numOfElements) {
 	}
 
 	//initialize the array to all zero to start with
-	printf("First thingy %d",array[0].edgeNums[0]);
+	printf("First thingy %d\n",array[0].edgeNums[0]);
 	return array; 
 }
 
@@ -173,11 +173,11 @@ void bagOfTask(struct row *boolMatrix, struct row *warPath, int numOfElements)
 
 struct row createRow(int numberOfEdges)
 {
-	struct  row *newRow = (struct row *) malloc(sizeof(struct row));
-	newRow->edgeNums = (int *)malloc(sizeof(int) * numberOfEdges);
-	//initialize the lock
+	struct  row *newRow = (struct row *) calloc(1,sizeof(struct row));
+	newRow->edgeNums = (int *)calloc(numberOfEdges,sizeof(int));
+	/*initialize the lock
 	//pthread_mutex_init(newRow->lock,NULL);
-	//printf("Making a row \n");
+	//printf("Making a row \n");*/
 	return *newRow;
 }
 
@@ -227,17 +227,6 @@ void enqueue(struct Queue * queue, struct row* element)
 	}
 	else
 	{
-		/* //increment the size and move the tail to one ahead
-		queue->size++;
-		queue->tail = queue->tail + 1;
-		if (queue->tail == queue->cap)
-		{
-			queue->tail = 0;
-		}
-		//add the new element
-		queue->elements[queue->tail] = addItem; */
-		
-		
 		struct rowList* rowL;
 		
 		if(queue->head == NULL){ /*if the queue is empty, set head*/
@@ -267,5 +256,3 @@ void freeAll(struct row *boolMatrix, struct row *warPath,int size)
 	free(boolMatrix);
 	free(warPath);
 }
-
->>>>>>> 6cd48f61817ca138ecd212e402f73d9082773aa9

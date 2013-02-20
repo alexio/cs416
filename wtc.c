@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	if(projectnum == 1)
 	{
 		printf("Warshalls Transitive Closure - Process\n");
-		//warshallsProcessed(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		warshallsProcessed(twoDArray,warPath,numberOfEdges,numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	else if(projectnum == 2)

@@ -6,8 +6,8 @@ all: warshall_tc
 debug:
 	make DEBUG=TRUE
 	
-warshall_tc: wtc.o operations.o wtc_thr.o 
-	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o 
+warshall_tc: wtc.o operations.o wtc_thr.o wtc_proc.o
+	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o wtc_proc.o
 
 wtc.o: wtc.c
 	$(CC) $(CCFLAGS) -c wtc.c

@@ -17,8 +17,8 @@ typedef struct {
 	struct row *edge_ptr;
 } shared_memory;
 
-struct row createRowPro(int numberOfEdges)
-{
+// Initializes the rows
+struct row createRowPro(int numberOfEdges) {
 	int row_id, edge_id;
 	struct row *newRow;
 	
@@ -31,28 +31,20 @@ struct row createRowPro(int numberOfEdges)
 	return *newRow;
 }
 
+// Initializes the array
 struct row *createArrayPro(int numOfElements) {
-	int i = 0;
-	int j;
-    int edge_id;
+	int i, j, edge_id;
     struct row *array;
     
     edge_id = shmget(IPC_PRIVATE, sizeof(struct row*), S_IRUSR|S_IWUSR);
     array = (struct row*)shmat(edge_id,NULL,0);
     
 	for(i = 0; i< numOfElements; i++)
-	{
 		array[i] = createRowPro(numOfElements);
-	}
 	
 	for(i = 0; i< numOfElements; i++)
-	{
-		//printf("i is: %d\n",i);
 		for(j = 0 ; j < numOfElements ; j++)
-		{
 			array[i].edgeNums[j] = 0;
-		}	 
-	}
 
 	//initialize the array to all zero to start with
 	printf("First thingy %d\n",array[0].edgeNums[0]);
@@ -76,13 +68,37 @@ void child_labor(shared_memory *mem_ptr, int fork_count, int k) {
 	exit(0);
 }
 
-/*
- * WARSHALL'S TRANSITIVE-CLOSURE
- */
-void warshallsProcessed(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess) {
-	int i, j, k, fork_count, process_count, status;
+// Warshall’s Transitive Closure
+void processWarshall(shared_memory *mem_ptr) {
+	int process_count, status, fork_count, k;
 	// Process IDs
 	pid_t pid, pid_list;
+	
+	for (k = 0; k < mem_ptr->numEdges; k++) {
+		// Forks 'n' number of proccesses
+		for (fork_count = 0; fork_count < mem_ptr->numProcess; fork_count++) {
+			// Checks if it is the child process
+			if ((pid_list = fork()) == 0) {
+				// Child process does work
+				child_labor(mem_ptr, fork_count, k);
+			} else {
+				// Parent process: taking a chill pill
+			}
+		}
+		process_count = mem_ptr->numProcess;
+		// Wait for the 'n' number of children to finish.
+		while (process_count > 0) {
+			pid = wait(&status);
+			process_count--;
+		}
+	}
+}
+
+/*
+ * PROCESS
+ */
+void warshallsProcessed(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess) {
+	int i, j;
 	// Memory ID
 	int memory_id;
 	// Memory Pointer
@@ -108,25 +124,7 @@ void warshallsProcessed(struct row* boolMatrix, struct row* warPath, int numEdge
 		for(j = 0; j < numEdges; j++)
 			mem_ptr->edge_ptr[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
 
-	// Warshall’s Transitive Closure
-	for (k = 0; k < numEdges; k++) {
-		// Forks 'n' number of proccesses
-		for (fork_count = 0; fork_count < numProcess; fork_count++) {
-			// Checks if it is the child process
-			if ((pid_list = fork()) == 0) {
-				// Child process does work
-				child_labor(mem_ptr, fork_count, k);
-			} else {
-				// Parent process: taking a chill pill
-			}
-		}
-		process_count = numProcess;
-		// Wait for the 'n' number of children to finish.
-		while (process_count > 0) {
-			pid = wait(&status);
-			process_count--;
-		}
-	}
+	processWarshall(mem_ptr);
 	
 	printf("Final Graph\n");
 	printGraph(mem_ptr->edge_ptr,numEdges);

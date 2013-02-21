@@ -40,7 +40,6 @@ struct Queue
 /*struct is to be used when passing multiple args to the thread method*/
 struct Params
 {
-	int* i; 
 	int k;
 	int numOfElements;
 	int numOfRows;

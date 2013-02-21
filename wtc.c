@@ -61,16 +61,13 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			printf("Else :%d\n", count);
 			char *token = strtok(temp," ");
 			temp3 = atoi(token);
-			printf("Temp3 :%d\n", temp3);
 			/*printf("Got the first edge %d\n",temp3);
 			free(token);
 			tokenize and then turn into int*/
 			token = strtok(NULL," ");
 			temp4 = atoi(token);
-			printf("Temp4 end :%d\n", temp4);
 			/*printf("Got the second edge %d\n",temp4);
 			add the edge to the graph
 			printf("adding");*/

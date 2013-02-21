@@ -175,9 +175,9 @@ struct row createRow(int numberOfEdges)
 {
 	struct  row *newRow = (struct row *) calloc(1,sizeof(struct row));
 	newRow->edgeNums = (int *)calloc(numberOfEdges,sizeof(int));
-	/*initialize the lock
-	//pthread_mutex_init(newRow->lock,NULL);
-	//printf("Making a row \n");*/
+	
+	/*initialize the lock*/
+	//pthread_mutex_init(newRow->lock, NULL);
 	return *newRow;
 }
 

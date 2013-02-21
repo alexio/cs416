@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	printf("Printing the graph\n");
 	//int i;
 	//int j;
-	printGraph(twoDArray,numberOfEdges);
+	//printGraph(twoDArray,numberOfEdges);
 	/*for(i = 0; i <numberOfEdges ; i++)
 	{
 		//printf("i is %d\n",i);
@@ -96,13 +96,14 @@ int main(int argc, char **argv)
 	{
 		printf("Warshalls Transitive Closure - Process\n");
 		warshallsProcessed(twoDArray,warPath,numberOfEdges,numberOfThreads);
-		printGraph(warPath,numberOfEdges);
+		//printGraph(warPath,numberOfEdges);
 	}
 	else if(projectnum == 2)
 	{
 		printf("Warshalls Transitive Closure - Threads\n");
 		warshallsThreaded(twoDArray,warPath,numberOfEdges,numberOfThreads);
-		printGraph(warPath,numberOfEdges);
+		//printGraph(warPath,numberOfEdges);
+		
 	}
 	else if (projectnum == 3)
 	{

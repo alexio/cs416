@@ -5,113 +5,80 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
 
-void *bagIt(void* param){
-			
-	printf("Thread\n");	
-	struct Params *input = (struct Params *)param;
-
-	int t, j;
-	for(t = 1; t < input->numOfRows; t++){
-		for(j = 0; j < input->numOfElements; j++){
-			
-			input->element[t].edgeNums[j] = input->element[t].edgeNums[j] || (input->element[t].edgeNums[input->k] && input->element[input->k].edgeNums[j]);
-			printf("after %d %d\n", j,t);
+void *child_laborThread(void *param) {
+	int rows, columns,numEdges,k;
+	struct Params *attr = (struct Params *)param;
+	int fork_count = attr->thread_num;
+	numEdges = attr->numEdges;
+	k = attr->k;
+	// Computation of Warshall’s Transitive Closure
+	for (rows = fork_count; rows < numEdges; rows++) { // per row
+		for (columns = 0; columns < numEdges; columns++) { // per column
+			attr->edge_ptr[rows].edgeNums[columns] = attr->edge_ptr[rows].edgeNums[columns] || (attr->edge_ptr[rows].edgeNums[k] && attr->edge_ptr[k].edgeNums[columns]);
+			printf("[%i][%i] = %i\n", rows, columns, attr->edge_ptr[rows].edgeNums[columns]);
 		}
+		// Child process will loop through every other + (total # process-1) of rows
+		rows += attr->thread_num -1;
 	}
-	return NULL;
+	return param;
 }
 
-void warshallsThreaded(struct row* boolMatrix, struct row* warPath, int numOfElements, int thread_num)
-{
-	int i, j, k, t;
-	struct Params* input; /*must allocate one at a time */
-	if((input = (struct Params*)calloc(thread_num+1, sizeof(struct Params))) == 0)
-	{	
-		fprintf(stderr,"ERROR: out of memory \n");
-		return;
-	}
-	char check = 'n';/*Check to see if numOfElements is evenly divided by numOfThreads, if it's not this 
-	lets you know if there is a remainder and allows you to enact a special case*/
+
+// Warshall’s Transitive Closure Threads
+void threadedWarshall(struct row *warPath,int threadnum,int numEdges) {
+	struct Params *attr = (struct Params *)calloc(1,sizeof(struct Params));
+	attr->edge_ptr = (struct row*)calloc(numEdges,sizeof(struct row));
+	// Thread IDs
+	int threadCount,k = 0;
+	pthread_t threads[threadnum];
 	
-	pthread_t threads[thread_num];
-	/*copy over the array*/
-	for(i = 0 ; i<numOfElements; i++)
-	{
-		for(j = 0; j < numOfElements; j++)
-		{
+	for (k = 0; k < numEdges; k++) {
+		// Forks 'n' number of proccesses
+		for (threadCount = 0; threadCount < threadnum; threadCount++) {
+			// Checks if it is the child process
+			attr->k = k;
+			attr->thread_num = threadCount;
+			attr->numEdges = numEdges;
+			attr->edge_ptr = warPath;
+			printf("Launching threads \n");
+			pthread_create(&threads[threadCount],NULL,child_laborThread,attr);
+		}
+		threadCount = 0;
+		// Wait for the 'n' number of children to finish.
+		while (threadCount < threadnum) {
+			pthread_join(threads[threadCount],NULL);
+			threadCount++;
+		}
+	}
+}
+
+void warshallsThreaded(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess) {
+	int i, j;
+	// Memory ID
+    sem_t *sem = calloc(1,sizeof(sem_t)); 
+    // Initializing semaphore
+    sem_init(sem, 1, 0);
+
+	// Initializes the shared memory and points to it
+
+	// Copies over the original 2D array
+    for(i = 0 ; i<numEdges; i++)
+		for(j = 0; j < numEdges; j++)
 			warPath[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
-		}
-	}
-	
-	int num_rows = numOfElements / thread_num;
-	int remains = numOfElements % thread_num;
 
-	if(remains != 0){
-		check = 'y';
-		thread_num--;
-	}
+	//processWarshall(mem_ptr);
+	//printf("Done with creation \n");
+	threadedWarshall(warPath,numProcess,numEdges);
+	printf("Final Graph\n");
+	printGraph(warPath,numEdges);
+	printf("End\n");
 
-	int t_index = 0; /*implement the max number of threads that can be operating at a given time*/
-	
-	for(t = 0; t < thread_num;t++){
-		if((input[t].element = malloc(sizeof(struct row)*(num_rows+1))) == 0){ /*contains array of rows to pass into threads*/
-			fprintf(stderr,"ERROR: out of memory \n");
-			return;
-		}
-	}
-	int row_counter = 0;
-	for(k = 0; k < numOfElements; k++)
-	{
-		
-		input[t_index].element[row_counter++] = warPath[k]; /* Does this change the row? */
-		input[t_index+1].element[row_counter-1] = warPath[k]; /* Does this change the row? */
-		for(i = 0 ; i < numOfElements ; i++)
-		{ /* going to iterate through thread input params variable and store a number of elements equal to num_threads before creating thread*/
-			/*or each thread takes a row at a time*/ 
-				input[t_index].numOfElements = numOfElements;
-				input[t_index].element[row_counter++] = warPath[i];
-				input[t_index].k = k;
-				if(check == 'y' && (i == (numOfElements - 1))){	
- 					input[t_index].numOfRows = row_counter;
- 					printf("Getting rows %d\n",t_index);
-					pthread_create(&threads[t_index], NULL, (void *)&bagIt, (void *)&input[t_index]);
-					t_index++;
-				}
-				else if(row_counter == (num_rows+1) && t_index < thread_num){/*wait until Param object has all the rows for the thread*/
-					printf("Thread going %d\n", k);
-					printf("Getting rows %d\n",t_index);
-					input[t_index].numOfRows = row_counter;
-					pthread_create(&threads[t_index], NULL, bagIt, (void*)&input[t_index]);
-					t_index++;
-					row_counter = 1;
-				}
-		}
-		/*wait for threads*/
-		for(t = 0 ; t < thread_num ; t++)
-		{
-			pthread_join(threads[t],NULL);
-		}
-		
-		/*free mem*/
-		for(t = 0; t < thread_num; t++){
-			free(input[t].element);
-		}
-		free(input);
-		
-		/*remalloc*/
-		if((input = (struct Params*)calloc(thread_num, sizeof(struct Params))) == 0){
-			fprintf(stderr,"ERROR: out of memory \n");
-			return;
-		}
-		
-		for(t = 0; t < thread_num;t++){
-			if((input[t].element = malloc(sizeof(struct row)*(num_rows+1))) == 0){
-				fprintf(stderr,"ERROR: out of memory \n");
-				return;
-			}
-		}
-		t_index = 0;
-		row_counter = 0;
-	}	
+	// Free the shared memory
+	//shmdt(mem_ptr);
+	//shmctl(memory_id, IPC_RMID, NULL);
+    //sem_destroy(sem);
+    //munmap(sem, sizeof(sem_t));
+    return;
 }

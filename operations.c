@@ -128,21 +128,27 @@ void workerThread()
 */
 
 
-
-void printGraph(struct row *graph, int numOfElements)
-{
-	int i;
-	int j;
+/*
+ * Writes to default file 'output.txt'
+ */
+void printGraph(struct row *graph, int numOfElements) {
+	int i, j;
+	FILE *output;
+	output = fopen("output.txt", "a");
+	
 	printf("----------------\n");
-	for(i = 0 ; i < numOfElements; i++)
-	{
-		for(j = 0 ; j < numOfElements ; j++)
-		{
+	fprintf(output, "----------------\n");
+	for(i = 0 ; i < numOfElements; i++) {
+		for(j = 0 ; j < numOfElements ; j++) {
 			printf("%d",graph[i].edgeNums[j]);
+			fprintf(output, "%d",graph[i].edgeNums[j]);
 		}
 		printf("\n");
+		fprintf(output, "\n");
 	}
 	printf("----------------\n");
+	fprintf(output, "----------------\n");
+	fclose(output);
 }
 
 

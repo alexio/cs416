@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 	else if (projectnum == 4)
 	{
 		printf("Bag of Tasks - Threads\n");
-		//bagOfTask(twoDArray,warPath,numberOfEdges);
+		bagOfThreads(twoDArray,warPath,numberOfEdges, numberOfThreads);
 		printGraph(warPath,numberOfEdges);
 	}
 	freeAll(twoDArray,warPath,numberOfEdges);

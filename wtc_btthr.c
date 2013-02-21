@@ -1,44 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "operations.h"
 #include <math.h>
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
+#include "operations.h"
 
-void bagOfTask(struct row* boolMatrix, struct row* warPath, int numOfElements, int thread_num)
-{
-	int i, j, k;
-	struct Queue *tempQ = createQueue(numOfElements);
-	struct Params *input = (struct params*)malloc(sizeof(struct Params));
-	
-	pthread_t tid;
-	pthread_attr_t attr; /*thread attrributes*/
-	
-	for(i = 0 ; i<numOfElements; i++)
-	{
-		for(j = 0; j < numOfElements; j++)
-		{
-			warPath[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
-		}
-		enqueue(tempQ, warPath[i]);
-	}
-	for(k = 0; k < numOfElements; k++)
-	{
-		for(i = 0 ; i < numOfElements ; i++)
-		{
-			while(tempQ->size > 0){
-				input->i = i;
-				input->k = k;
-				input->element = dequeue(tempQ);
-				input->numOfElements = numOfElements;
-				pthread_create(&tid, NULL, bagIt, input);
-			}
-		}
-	}
-}
-
-void *child_laborThread(void *param) {
+void *child_laborer(void *param) {
 	int rows, columns,numEdges,k;
 	struct Params *attr = (struct Params *)param;
 	int fork_count = attr->thread_num;
@@ -56,45 +25,50 @@ void *child_laborThread(void *param) {
 	return param;
 }
 /*Initate queue and give each thread a dequeue'd object*/
-void ThreadStart(struct row* warPath, int thread_num, int numEdges ){
+void ThreadStart(struct Queue * queue, struct row* warPath, int thread_num, int numEdges ){
 	struct Params *attr = (struct Params *)calloc(1, sizeof(struct Params));
-	attr->edge_ptr = (struct row*)calloc(numEdges, sizeof(struct rows));
-	
-	struct Queue *queue = createQueue(numOfElements);
+	attr->edge_ptr = (struct row*)calloc(numEdges, sizeof(struct row));
 	
 	int threadCount, k =0;
-	pthread_t threads[threadnum];
+	pthread_t threads[thread_num];/*Thread ids*/
 	
 	for(k = 0; k < numEdges; k++){
-		for(threadCount = 0;; threadCount < threanum; threadCount++){
+		/*Create threads*/
+		for(threadCount = 0; threadCount < thread_num; threadCount++){
 			attr->k = k;
 			attr->thread_num = threadCount;
 			attr->numEdges = numEdges;
 			attr->edge_ptr = warPath;
 			printf("Launching threads \n");
-			pthread_create(&threads[threadCount],NULL,child_laborThread,attr);
+			pthread_create(&threads[threadCount],NULL,child_laborer,attr);
 		}
 		threadCount = 0;
-		while(threadCount < threadnum){
+		while(threadCount < thread_num){
 			pthread_join(threads[threadCount],NULL);
 			threadCount++;
 		}
 	}
 }
-void bagOfThreads(struct row* bolMatrix, struct row* warPath, int nmEdges, int numProcess){
+void bagOfThreads(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess){
 	int i, j;
-	struct Queue *queue = createQueue(numOfElements);
+	
+	/*Queue will store rows*/
+	struct Queue * queue = createQueue(numEdges);
+	
+	/*mem id*/
 	sem_t * sem =  calloc(1, sizeof(sem_t));
 	/*Initializing semaphor*/
 	sem_init(sem, 1, 0);
 	
 	// Copies over the original 2D array
-    for(i = 0 ; i<numEdges; i++)
-		for(j = 0; j < numEdges; j++)
+    for(i = 0 ; i<numEdges; i++){
+		for(j = 0; j < numEdges; j++){
 			warPath[i].edgeNums[j] = boolMatrix[i].edgeNums[j];
+			enqueue(queue, warPath+i);
+		}
+	}
 			
-	ThreadStart(warPath, numProcess, numEdges, queue);
-	return;
+	ThreadStart(queue, warPath, numProcess, numEdges);
 }
 
 

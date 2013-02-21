@@ -6,8 +6,8 @@ all: warshall_tc
 debug:
 	make DEBUG=TRUE
 	
-warshall_tc: wtc.o operations.o wtc_thr.o wtc_proc.o
-	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o wtc_proc.o
+warshall_tc: wtc.o operations.o wtc_thr.o wtc_proc.o wtc_btthr.o
+	$(CC) $(CCFLAGS) -o warshall_tc wtc.o operations.o wtc_thr.o wtc_proc.o wtc_btthr.o
 
 wtc.o: wtc.c
 	$(CC) $(CCFLAGS) -c wtc.c
@@ -20,6 +20,9 @@ wtc_thr.o: wtc_thr.c
 
 wtc_proc.o: wtc_proc.c
 	$(CC) $(CCFLAGS) -c wtc_proc.c
+	
+wtc_btthr.o: wtc_btthr.c
+	$(CC) $(CCFLAGS) -c wtc_btthr.c
 
 ifeq ($(DEBUG), TRUE)
 CCFLAGS += -g

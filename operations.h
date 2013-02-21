@@ -42,11 +42,14 @@ struct Params
 {
 	int* i; 
 	int k;
-	int numOfElements;
-	int numOfRows;
-	struct row* element;
+	int numEdges;
+	int thread_num;
+	struct row* edge_ptr;
 };
 
+
+
+void threadedWarshall(struct row *warPath,int threadnum,int numEdges);
 struct row createRow(int numberOfEdges);
 struct Queue * createQueue(int elementsMax);
 void destroyQueue(struct Queue *removed);

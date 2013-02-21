@@ -31,7 +31,7 @@ struct rowList
 
 struct Queue
 {
-	int cap; /*do we need a cap?*/
+	int cap;
 	int size;
 	struct rowList* head;
 	struct rowList* tail;
@@ -56,5 +56,7 @@ struct row* dequeue(struct Queue * queue);
 void enqueue(struct Queue *queue, struct row *element);
 void freeAll(struct row *boolMatrix, struct row *warPath, int size);
 void *bagIt(void *params);
+void warshallsProcessed_bt(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess);
+void bagOfThreads_bt(struct row* boolMatrix, struct row* warPath, int numEdges, int numProcess);
 #endif
 

@@ -108,14 +108,14 @@ int main(int argc, char **argv)
 	else if (projectnum == 3)
 	{
 		printf("Bag of Tasks - Process\n");
-		//bagOfTask(twoDArray,warPath,numberOfEdges);
-		printGraph(warPath,numberOfEdges);
+		warshallsProcessed_bt(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		//printGraph(warPath,numberOfEdges);
 	}
 	else if (projectnum == 4)
 	{
 		printf("Bag of Tasks - Threads\n");
-		bagOfThreads(twoDArray,warPath,numberOfEdges, numberOfThreads);
-		printGraph(warPath,numberOfEdges);
+		bagOfThreads_bt(twoDArray,warPath,numberOfEdges,numberOfThreads);
+		//printGraph(warPath,numberOfEdges);
 	}
 	freeAll(twoDArray,warPath,numberOfEdges);
 	/*printf("Warshalls\n");
